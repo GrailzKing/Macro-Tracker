@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Macro Tracker</title>
+<meta name="description" content="A simple mobile-friendly diet and macro tracker.">
+<meta name="theme-color" content="#107a57">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Macros">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="app-header">
+  <h1>Macro Tracker</h1>
+</header>
+
+<nav class="tabbar" role="tablist">
+  <button id="tab-today" class="tab active" role="tab">Today</button>
+  <button id="tab-foods" class="tab" role="tab">Foods</button>
+  <button id="tab-history" class="tab" role="tab">History</button>
+  <button id="tab-settings" class="tab" role="tab">Settings</button>
+</nav>
+
+<main class="app-main">
+
+  <!-- TODAY -->
+  <section id="panel-today" class="panel">
+
+    <div class="card">
+      <div class="date-row">
+        <div id="view-date-label" class="date-label">Today</div>
+        <input type="date" id="view-date-input" class="date-input">
+        <button class="icon-btn" id="jump-today-btn" title="Jump to today">&#8635;</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Targets</h2>
+      <div id="targets-box"></div>
+      <div class="weight-log-row">
+        <input type="number" id="weight-input" placeholder="Weight (lb)" inputmode="decimal" step="0.1">
+        <input type="date" id="weight-date-input">
+        <button class="btn" id="log-weight-btn">Log weight</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Progress</h2>
+      <div id="today-totals"></div>
+    </div>
+
+    <div class="card">
+      <h2>Add food</h2>
+      <input type="search" id="food-search" placeholder="Search foods…" class="search-input">
+      <div id="food-picker-list" class="scroll-list"></div>
+    </div>
+
+    <div class="card">
+      <h2>Logged</h2>
+      <div id="today-log-list"></div>
+    </div>
+
+  </section>
+
+  <!-- FOODS -->
+  <section id="panel-foods" class="panel hidden">
+    <div class="card">
+      <h2>Food database</h2>
+      <div class="row-between">
+        <input type="search" id="foods-manage-search" placeholder="Search foods…" class="search-input">
+        <button class="btn" id="add-food-btn">+ Add</button>
+      </div>
+      <div id="foods-manage-list" class="scroll-list"></div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="panel-history" class="panel hidden">
+    <div class="card">
+      <h2>Weight over time</h2>
+      <div id="weight-chart"></div>
+    </div>
+    <div class="card">
+      <h2>Logged days</h2>
+      <div id="history-days-list" class="scroll-list"></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="panel-settings" class="panel hidden">
+    <div class="card">
+      <h2>Target formula</h2>
+      <form id="formula-form">
+        <label>Protein (g) per lb bodyweight
+          <input type="number" step="0.01" id="formula-protein">
+        </label>
+        <label>Calories per lb bodyweight
+          <input type="number" step="0.1" id="formula-cal">
+        </label>
+        <label>Carbs as % of protein target
+          <input type="number" step="0.01" id="formula-carb">
+        </label>
+        <button class="btn" type="submit">Save formula</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Backup &amp; restore</h2>
+      <p class="muted small">All data lives only in this browser on this device. Export a backup regularly, especially before clearing browser data.</p>
+      <div class="row-between">
+        <button class="btn" id="export-btn">Export backup (.json)</button>
+        <label class="btn secondary file-label">Import backup
+          <input type="file" id="import-input" accept="application/json" style="display:none">
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Reset</h2>
+      <button class="btn danger" id="reset-btn">Erase all data on this device</button>
+    </div>
+
+    <div class="card">
+      <h2>About</h2>
+      <p class="muted small">Install this as an app: on iPhone use Share &rarr; Add to Home Screen; on Android use the browser menu &rarr; Add to Home Screen / Install app. It then works offline.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Food add/edit modal -->
+<div id="food-form-modal" class="modal hidden">
+  <div class="modal-content">
+    <h2 id="food-form-title">Add food</h2>
+    <form id="food-form">
+      <input type="hidden" id="food-form-id">
+      <label>Name
+        <input type="text" id="food-form-name" required>
+      </label>
+      <label>Calories per serving
+        <input type="number" step="0.1" id="food-form-cal" required>
+      </label>
+      <label>Protein (g) per serving
+        <input type="number" step="0.1" id="food-form-protein" required>
+      </label>
+      <label>Carbs (g) per serving
+        <input type="number" step="0.1" id="food-form-carbs" required>
+      </label>
+      <div class="row-between">
+        <button type="button" class="btn secondary" id="food-form-cancel">Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
